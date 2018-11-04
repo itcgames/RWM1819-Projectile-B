@@ -7,9 +7,9 @@
  // C00204076
  // Brandon Seah-Dempsey
  // Started at 14:41 3 November 2018
- // Finished at
- // Time taken:
- // Known bugs:
+ // Finished at 16:40 4 November 2018
+ // Time taken: 3 hours 30 Minutes
+ // Known bugs: None
 
  /*
   *
@@ -24,7 +24,6 @@
      this.x = 10;
      this.y = 300;
      this.radius = 15;
-     this.time = 0;
 
      this.distance = 1000; // Distance in number of pixels,
                           // change to increase speed
@@ -92,6 +91,10 @@
      this.circle(this.context, this.x, this.y, this.radius, "black");
    }
 
+
+   /*
+    *
+    */
    circle(context, x, y, r, colour)
    {
      x = Math.round(x);
