@@ -21,8 +21,14 @@
     */
    constructor(canvas, context)
    {
-     this.x = 100;
-     this.y = 300;
+     this.x = 100; // Set to 0 for applying velocity to X
+                   // Set to 300 for applying velocity to Y
+                   // Set to 100 for applying gravity
+
+     this.y = 300; // Set to 300 for applying velocity to X 
+                   // Set to 0 for applying velocity to Y
+                   // Set to 300 for applying gravity
+
      this.radius = 15;
 
      this.distance = 1000; // Distance in number of pixels,
@@ -39,7 +45,7 @@
 
      this.applyToX = false; // Applies velocity to X if true, but is set to false
      this.applyToY = false; // Applies velocity to Y if true, but is set to false
-     this.applyGravity = false;
+     this.applyGravity = false; // Applies gravity when true, but set to false
 
      this.canvas = canvas;
      this.context = context;
