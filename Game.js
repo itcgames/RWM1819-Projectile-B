@@ -26,11 +26,19 @@
 
    initWorld()
    {
+     var xButton = document.getElementById("applyX");
+     var yButton = document.getElementById("applyY");
+     var gravityButton = document.getElementById("applyGravity");
+
      this.canvas = document.getElementById("canvas");
      this.context = this.canvas.getContext("2d");
 
+
      this.projectile = new Projectile(this.canvas, this.context);
 
+     xButton.addEventListener("click", function(){});
+     //yButton.addEventListener("click", function(){});
+     //gravityButton.addEventListener("click", function(){});
 
      console.log("Initialising game world");
      this.update();

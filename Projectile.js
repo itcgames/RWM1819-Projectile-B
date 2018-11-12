@@ -34,6 +34,10 @@
 
      var that = this;
 
+     this.applyToX = false; // Applies velocity to X if true, but is set to false
+     this.applyToY = false; // Applies velocity to Y if true, but is set to false
+     this.applyGravity = false;
+
      this.canvas = canvas;
      this.context = context;
    }
@@ -50,37 +54,36 @@
      this.y = this.y + this.velY * this.inc;
      */
 
-     // Calculated velocity and applys to X
-     this.expired = (new Date() - this.startTime) / 1000;
-     this.x = this.expired * this.distance / this.totalTime;
-
-     // Applys velocity to Y
-     //this.y = this.expired * this.distance / this.totalTime;
-
-     //Screen Warp, stops applying velocity when screen warp occurs
      /*
-     if(this.x > 825)
+      *
+      */
+     if(this.applyToX === true)
      {
-       this.x = -15;
-     }
-     else if (this.x < -25)
-     {
-       this.x = 815;
+       // Calculated velocity and applys to X
+       this.expired = (new Date() - this.startTime) / 1000;
+       this.x = this.expired * this.distance / this.totalTime;
+       console.log(this.x);
      }
 
-     if(this.y > 625)
+     /*
+      *
+      */
+     else if(this.applyToY === true)
      {
-       this.y = -15;
+       // Applys velocity to Y
+       this.expired = (new Date() - this.startTime) / 1000;
+       this.y = this.expired * this.distance / this.totalTime;
+       console.log(this.y);
      }
-     else if (this.y < -25)
+
+     /*
+      *
+      */
+     else if(this.applyGravity === true)
      {
-       this.y = 615;
+
      }
-     */
 
-     console.log(this.x);
-
-     console.log(this.y);
    }
 
    /*
@@ -108,6 +111,55 @@
      this.context.lineWidth = 4;
      this.context.stroke();
      this.context.strokeStyle = temp;
+   }
+
+   /*
+    *
+    */
+   applyXValues()
+   {
+     this.x = 0;
+     this.y = 300;
+     this.radius = 15;
+
+     this.distance = 1000;
+     this.totalTime = 10;
+     this.startTime = new Date();
+     this.expired = 0;
+
+     this.applyToX = true;
+     this.applyToY = false;
+     this.applyGravity = false;
+   }
+
+   /*
+    *
+    */
+   applyYValues()
+   {
+     this.x = 300;
+     this.y = 0;
+     this.radius = 15;
+
+     this.distance = 1000;
+     this.totalTime = 10;
+     this.startTime = new Date();
+     this.expired = 0;
+
+     this.applyToX = false;
+     this.applyToY = true;
+     this.applyGravity = false;
+   }
+
+   /*
+    *
+    */
+   applyGravityValues()
+   {
+
+     this.applyToX = false;
+     this.applyToY = false;
+     this.applyGravity = true;
    }
 
  }
