@@ -21,7 +21,7 @@
     */
    constructor(canvas, context)
    {
-     this.x = 10;
+     this.x = 100;
      this.y = 300;
      this.radius = 15;
 
@@ -31,6 +31,9 @@
      this.startTime = new Date(); // The time at which the code starts
      this.expired = 0; // The expired time in seconds
 
+     this.gravity = 0.5;
+     this.velX = (Math.random() * +15) + 5;
+     this.velY = (Math.random() * -15) - 5;
 
      var that = this;
 
@@ -60,8 +63,9 @@
      if(this.applyToX === true)
      {
        // Calculated velocity and applys to X
-       this.expired = (new Date() - this.startTime) / 1000;
-       this.x = this.expired * this.distance / this.totalTime;
+       /*this.expired = (new Date() - this.startTime) / 1000;
+       this.x = this.expired * this.distance / this.totalTime;*/
+       this.x += this.velX;
        console.log(this.x);
      }
 
@@ -71,8 +75,9 @@
      else if(this.applyToY === true)
      {
        // Applys velocity to Y
-       this.expired = (new Date() - this.startTime) / 1000;
-       this.y = this.expired * this.distance / this.totalTime;
+       /*this.expired = (new Date() - this.startTime) / 1000;
+       this.y = this.expired * this.distance / this.totalTime;*/
+       this.y += this.velY;
        console.log(this.y);
      }
 
@@ -81,7 +86,9 @@
       */
      else if(this.applyGravity === true)
      {
-
+       this.velY += this.gravity;
+       this.y += this.velY;
+       console.log(this.y);
      }
 
    }
@@ -122,10 +129,8 @@
      this.y = 300;
      this.radius = 15;
 
-     this.distance = 1000;
-     this.totalTime = 10;
-     this.startTime = new Date();
-     this.expired = 0;
+     this.gravity = 0.5;
+     this.velY = (Math.random() * -15) - 5;
 
      this.applyToX = true;
      this.applyToY = false;
@@ -141,10 +146,8 @@
      this.y = 0;
      this.radius = 15;
 
-     this.distance = 1000;
-     this.totalTime = 10;
-     this.startTime = new Date();
-     this.expired = 0;
+     this.gravity = 0.5;
+     this.velY = (Math.random() * -15) - 5;
 
      this.applyToX = false;
      this.applyToY = true;
@@ -156,6 +159,12 @@
     */
    applyGravityValues()
    {
+     this.x = 300;
+     this.y = 600;
+     this.radius = 15;
+
+     this.gravity = 0.5;
+     this.velY = (Math.random() * -15) - 5;
 
      this.applyToX = false;
      this.applyToY = false;
