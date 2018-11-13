@@ -26,9 +26,13 @@
 
    initWorld()
    {
-     /*var xButton = document.getElementById("applyX");
+
+     var xButton = document.getElementById("applyX");
      var yButton = document.getElementById("applyY");
-     var gravityButton = document.getElementById("applyGravity");*/
+     var gravityButton = document.getElementById("applyGravity");
+
+     var that = this;
+
 
      this.canvas = document.getElementById("canvas");
      this.context = this.canvas.getContext("2d");
@@ -36,9 +40,23 @@
 
      this.projectile = new Projectile(this.canvas, this.context);
 
-     //xButton.addEventListener("click", function(){});
-     //yButton.addEventListener("click", function(){});
-     //gravityButton.addEventListener("click", function(){});
+     //
+     xButton.addEventListener("click", function(){
+       that.projectile.applyXValues();
+       console.log("X Pressed!");
+     });
+
+     //
+     yButton.addEventListener("click", function(){
+       that.projectile.applyYValues();
+       console.log("Y Pressed!");
+     });
+
+     //
+     gravityButton.addEventListener("click", function(){
+       that.projectile.applyGravityValues();
+       console.log("Gravity Pressed!");
+     });
 
      console.log("Initialising game world");
      this.update();

@@ -25,7 +25,7 @@
                    // Set to 300 for applying velocity to Y
                    // Set to 100 for applying gravity
 
-     this.y = 300; // Set to 300 for applying velocity to X 
+     this.y = 300; // Set to 300 for applying velocity to X
                    // Set to 0 for applying velocity to Y
                    // Set to 300 for applying gravity
 
@@ -149,7 +149,7 @@
    applyYValues()
    {
      this.x = 300;
-     this.y = 0;
+     this.y = 600;
      this.radius = 15;
 
      this.gravity = 0.5;
@@ -163,7 +163,7 @@
    /*
     *
     */
-   applyGravityValues()
+   applyGravityValues(e)
    {
      this.x = 300;
      this.y = 600;
