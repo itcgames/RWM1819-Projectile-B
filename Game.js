@@ -30,6 +30,7 @@
      var xButton = document.getElementById("applyX");
      var yButton = document.getElementById("applyY");
      var gravityButton = document.getElementById("applyGravity");
+     var frictionButton = document.getElementById("applyFriction");
 
      var that = this;
 
@@ -56,6 +57,12 @@
      gravityButton.addEventListener("click", function(){
        that.projectile.applyGravityValues();
        console.log("Gravity Pressed!");
+     });
+
+     //
+     frictionButton.addEventListener("click", function(){
+       that.projectile.applyFrictionValues();
+       console.log("Friction Pressed!");
      });
 
      console.log("Initialising game world");
