@@ -27,8 +27,7 @@
    initWorld()
    {
 
-     var xButton = document.getElementById("applyX");
-     var yButton = document.getElementById("applyY");
+     var velocityButton = document.getElementById("applyVelocity");
      var gravityButton = document.getElementById("applyGravity");
      var frictionButton = document.getElementById("applyFriction");
 
@@ -42,15 +41,9 @@
      this.projectile = new Projectile(this.canvas, this.context);
 
      //
-     xButton.addEventListener("click", function(){
-       that.projectile.applyXValues();
-       console.log("X Pressed!");
-     });
-
-     //
-     yButton.addEventListener("click", function(){
-       that.projectile.applyYValues();
-       console.log("Y Pressed!");
+     velocityButton.addEventListener("click", function(){
+       that.projectile.applyVelocityValues();
+       console.log("Velocity Pressed!");
      });
 
      //

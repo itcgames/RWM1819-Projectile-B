@@ -32,8 +32,8 @@
      this.radius = 15;
 
      this.gravity = 0.5;
-     this.velX = (Math.random() * +15) + 5;
-     this.velY = (Math.random() * -15) - 5;
+     this.velX = 0;
+     this.velY = 0;
 
 
      this.fricVelX = 0;
@@ -44,8 +44,7 @@
 
      var that = this;
 
-     this.applyToX = false; // Applies velocity to X if true, but is set to false
-     this.applyToY = false; // Applies velocity to Y if true, but is set to false
+     this.applyToVelocity  = false; // Applies velocity if true, but is set to false
      this.applyGravity = false; // Applies gravity when true, but set to false
      this.applyFric = false;
 
@@ -61,24 +60,15 @@
      /*
       *
       */
-     if(this.applyToX === true)
+     if(this.applyToVelocity === true)
      {
        // Calculated velocity and applys to X
        /*this.expired = (new Date() - this.startTime) / 1000;
        this.x = this.expired * this.distance / this.totalTime;*/
-       this.x += this.velX;
-       console.log(this.x);
-     }
 
-     /*
-      *
-      */
-     else if(this.applyToY === true)
-     {
-       // Applys velocity to Y
-       /*this.expired = (new Date() - this.startTime) / 1000;
-       this.y = this.expired * this.distance / this.totalTime;*/
-       this.y += this.velY;
+       this.applyVelocity();
+
+       console.log(this.x);
        console.log(this.y);
      }
 
@@ -97,10 +87,8 @@
       */
      else if(this.applyFric === true)
      {
-
        this.applyFriction();
-       this.x += this.fricVelX;
-       this.y += this.fricVelY;
+
        console.log(this.x);
        console.log(this.y);
      }
@@ -137,6 +125,29 @@
    /*
     *
     */
+   applyVelocity()
+   {
+     this.speed = Math.sqrt((this.velX * this.velX) + (this.velY * this.velY));
+     this.angle = Math.atan2(this.velY, this.velX);
+
+     this.velX = Math.cos(this.angle) * this.speed;
+     this.velY = Math.sin(this.angle) * this.speed;
+
+     this.x += this.velX;
+     this.y += this.velY;
+   }
+
+   /*
+    *
+    */
+   applyGravity()
+   {
+
+   }
+
+   /*
+    *
+    */
    applyFriction()
    {
      this.speed = Math.sqrt((this.fricVelX * this.fricVelX) + (this.fricVelY * this.fricVelY));
@@ -153,40 +164,41 @@
 
      this.fricVelX = Math.cos(this.angle) * this.speed;
      this.fricVelY = Math.sin(this.angle) * this.speed;
+
+     this.x += this.fricVelX;
+     this.y += this.fricVelY;
    }
 
    /*
     *
     */
-   applyXValues()
+   applyVelocityValues()
    {
-     this.x = 0;
-     this.y = 300;
+     this.x = 400;
+     this.y = 500;
      this.radius = 15;
 
      this.gravity = 0.5;
-     this.velY = (Math.random() * -15) - 5;
 
-     this.applyToX = true;
-     this.applyToY = false;
-     this.applyGravity = false;
-     this.applyFric = false;
-   }
+     if(isNaN(document.getElementById("x-vel-input").value))
+     {
+       this.velX = 0;
+     }
+     else
+     {
+       this.velX = document.getElementById("x-vel-input").value;
+     }
 
-   /*
-    *
-    */
-   applyYValues()
-   {
-     this.x = 300;
-     this.y = 600;
-     this.radius = 15;
+     if(isNaN(document.getElementById("y-vel-input").value))
+     {
+       this.velY = 0;
+     }
+     else
+     {
+       this.velY = document.getElementById("y-vel-input").value;
+     }
 
-     this.gravity = 0.5;
-     this.velY = (Math.random() * -15) - 5;
-
-     this.applyToX = false;
-     this.applyToY = true;
+     this.applyToVelocity = true;
      this.applyGravity = false;
      this.applyFric = false;
    }
@@ -203,8 +215,7 @@
      this.gravity = 0.5;
      this.velY = (Math.random() * -15) - 5;
 
-     this.applyToX = false;
-     this.applyToY = false;
+     this.applyToVelocity = false;
      this.applyGravity = true;
      this.applyFric = false;
    }
@@ -237,8 +248,7 @@
      }
 
 
-     this.applyToX = false;
-     this.applyToY = false;
+     this.applyToVelocity = false;
      this.applyGravity = false;
      this.applyFric = true;
    }
