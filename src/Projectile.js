@@ -7,7 +7,7 @@
  // C00204076
  // Brandon Seah-Dempsey
  // Started at 14:41 3 November 2018
- // Finished at 16:40 4 November 2018
+ // Finished at
  // Time taken: 3 hours 30 Minutes
  // Known bugs: None
 
@@ -30,23 +30,29 @@
                    // Set to 300 for applying gravity
 
      this.radius = 15;
-
+     this.speed = 0.0;
+     this.angle = 0.0;
      this.gravity = 0.5;
+
+     //
      this.velX = 0;
      this.velY = 0;
 
-
+     //
      this.fricVelX = 0;
      this.fricVelY = 0;
-     this.speed = 0.0;
      this.friction = 0.01;
-     this.angle = 0.0;
 
-     var that = this;
+     //
+     this.dragVelX = 0;
+     this.dragVelY = 0;
+     this.resistance = 0;
+     this.bounceFactor = 0.9;
 
      this.applyToVelocity  = false; // Applies velocity if true, but is set to false
      this.applyGravity = false; // Applies gravity when true, but set to false
      this.applyFric = false;
+     this.applyTBounce = false;
 
      this.canvas = canvas;
      this.context = context;
@@ -57,6 +63,8 @@
     */
    update(e)
    {
+     var that = this;
+
      /*
       *
       */
@@ -66,9 +74,17 @@
        /*this.expired = (new Date() - this.startTime) / 1000;
        this.x = this.expired * this.distance / this.totalTime;*/
 
-       this.applyVelocity();
+       this.applyVelocity(that, this.speed, this.angle, this.velX, this.velY, this.x, this.y);
 
        console.log(this.x);
+       console.log(this.y);
+     }
+
+     else if(this.applyGravity === true && this.applyTBounce === true)
+     {
+       this.applyTheGravity(that, this.velY, this.y, this.gravity);
+       this.applyBounce(that, this.y, this.velY, this.bounceFactor, this.applyTBounce)
+
        console.log(this.y);
      }
 
@@ -77,8 +93,7 @@
       */
      else if(this.applyGravity === true)
      {
-       this.velY += this.gravity;
-       this.y += this.velY;
+       this.applyTheGravity(that, this.velY, this.y, this.gravity);
        console.log(this.y);
      }
 
@@ -87,7 +102,7 @@
       */
      else if(this.applyFric === true)
      {
-       this.applyFriction();
+       this.applyFriction(that, this.speed, this.angle, this.fricVelX, this.fricVelY, this.friction, this.x, this.y);
 
        console.log(this.x);
        console.log(this.y);
@@ -125,48 +140,60 @@
    /*
     *
     */
-   applyVelocity()
+   applyVelocity(that, speed, angle, velX, velY, x, y)
    {
-     this.speed = Math.sqrt((this.velX * this.velX) + (this.velY * this.velY));
-     this.angle = Math.atan2(this.velY, this.velX);
+     that.speed = Math.sqrt((that.velX * that.velX) + (that.velY * that.velY));
+     that.angle = Math.atan2(that.velY, that.velX);
 
-     this.velX = Math.cos(this.angle) * this.speed;
-     this.velY = Math.sin(this.angle) * this.speed;
+     that.velX = Math.cos(that.angle) * that.speed;
+     that.velY = Math.sin(that.angle) * that.speed;
 
-     this.x += this.velX;
-     this.y += this.velY;
+     that.x += that.velX;
+     that.y += that.velY;
    }
 
    /*
     *
     */
-   applyGravity()
+   applyTheGravity(that, velY, y, gravity)
    {
-
+     that.velY += that.gravity;
+     that.y += that.velY;
    }
 
    /*
     *
     */
-   applyFriction()
+   applyFriction(that, speed, angle, fricVelX, fricVelY, friction, x, y)
    {
-     this.speed = Math.sqrt((this.fricVelX * this.fricVelX) + (this.fricVelY * this.fricVelY));
-     this.angle = Math.atan2(this.fricVelY, this.fricVelX);
+     that.speed = Math.sqrt((that.fricVelX * that.fricVelX) + (that.fricVelY * that.fricVelY));
+     that.angle = Math.atan2(that.fricVelY, that.fricVelX);
 
-     if(this.speed > this.friction)
+     if(that.speed > that.friction)
      {
-       this.speed -= this.friction;
+       that.speed -= that.friction;
      }
      else
      {
-        this.speed = 0;
+        that.speed = 0;
      }
 
-     this.fricVelX = Math.cos(this.angle) * this.speed;
-     this.fricVelY = Math.sin(this.angle) * this.speed;
+     that.fricVelX = Math.cos(that.angle) * that.speed;
+     that.fricVelY = Math.sin(that.angle) * that.speed;
 
-     this.x += this.fricVelX;
-     this.y += this.fricVelY;
+     that.x += that.fricVelX;
+     that.y += that.fricVelY;
+   }
+
+   applyBounce(that, y, velY, bounceFactor, applyTBounce)
+   {
+     if(that.applyTBounce === true)
+     {
+       if(that.y >= 600)
+       {
+         that.velY *= -that.bounceFactor;
+       }
+     }
    }
 
    /*
@@ -201,6 +228,7 @@
      this.applyToVelocity = true;
      this.applyGravity = false;
      this.applyFric = false;
+     this.applyTBounce = false;
    }
 
    /*
@@ -218,6 +246,7 @@
      this.applyToVelocity = false;
      this.applyGravity = true;
      this.applyFric = false;
+     this.applyTBounce = false;
    }
 
    /*
@@ -247,10 +276,57 @@
        this.fricVelY = document.getElementById("y-velocity-input").value;
      }
 
+     this.applyToVelocity = false;
+     this.applyGravity = false;
+     this.applyFric = true;
+     this.applyTBounce = false;
+   }
+
+   applyDragCoefficentValues()
+   {
+     this.x = 400;
+     this.y = 500;
+     this.radius = 15;
+
+     if(isNaN(document.getElementById("x-velocity-input").value))
+     {
+       this.fricVelX = 0;
+     }
+     else
+     {
+       this.fricVelX = document.getElementById("x-velocity-input").value;
+     }
+
+     if(isNaN(document.getElementById("y-velocity-input").value))
+     {
+       this.fricVelY = 0;
+     }
+     else
+     {
+       this.fricVelY = document.getElementById("y-velocity-input").value;
+     }
+
 
      this.applyToVelocity = false;
      this.applyGravity = false;
      this.applyFric = true;
+     this.applyTBounce = false;
    }
 
+   applyBounceValues()
+   {
+     this.x = 300;
+     this.y = 600;
+     this.radius = 15;
+
+     this.bounceFactor = 0.9;
+
+     this.gravity = 0.5;
+     this.velY = (Math.random() * -15) - 5;
+
+     this.applyToVelocity = false;
+     this.applyGravity = true;
+     this.applyFric = false;
+     this.applyTBounce = true;
+   }
  }
